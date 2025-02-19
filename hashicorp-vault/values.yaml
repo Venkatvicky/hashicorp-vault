@@ -27,3 +27,23 @@ spec:
       values: |
         service:
           port: 8200
+
+        service:
+  enabled: true
+  type: LoadBalancer
+  port: 8200
+
+ingress:
+  enabled: false
+  annotations: {}
+  hosts: []
+  tls: []
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
