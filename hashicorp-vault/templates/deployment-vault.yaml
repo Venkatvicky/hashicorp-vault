@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: vault
-  labels:
-    app: vault
 spec:
   replicas: {{ .Values.vault.replicas }}
   selector:
@@ -17,20 +15,16 @@ spec:
       containers:
         - name: vault
           image: {{ .Values.vault.image }}
-          args:
-            - "server"
-          env:
-            - name: VAULT_LOCAL_CONFIG
-              valueFrom:
-                configMapKeyRef:
-                  name: vault-config
-                  key: config.hcl
           ports:
-            - containerPort: {{ .Values.vault.service.port }}
-          volumeMounts:
-            - name: vault-config
-              mountPath: /vault/config
-      volumes:
-        - name: vault-config
-          configMap:
-            name: vault-config
+            - containerPort: 8200
+          env:
+            - name: VAULT_DEV_ROOT_TOKEN_ID
+              value: "root"
+            - name: VAULT_DEV_LISTEN_ADDRESS
+              value: "0.0.0.0:8200"
+          readinessProbe:
+            httpGet:
+              path: /v1/sys/health
+              port: 8200
+            initialDelaySeconds: 5
+            periodSeconds: 10
