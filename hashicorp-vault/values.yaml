@@ -4,34 +4,21 @@ vault:
   service:
     enabled: true
     type: ClusterIP
-    port: 8200  # <-- Ensure this exists
+    port: 8200
+
   config:
     storage: "postgres"
     postgresql:
-      connection_url: "postgresql://vault:vaultpassword@postgres:5432>
+      connection_url: "postgresql://vault:vaultpassword@postgres:5432"  # Fixed missing quote
+
 postgres:
   image: "postgres:latest"
   replicas: 1
   service:
     type: ClusterIP
-    port: 5432  # <-- Ensure this exists
+    port: 5432
   storage:
     size: 1Gi
-
-spec:
-  source:
-    chart: vault
-    repoURL: https://helm.releases.hashicorp.com
-    targetRevision: 0.27.0
-    helm:
-      values: |
-        service:
-          port: 8200
-
-        service:
-  enabled: true
-  type: LoadBalancer
-  port: 8200
 
 ingress:
   enabled: false
@@ -46,4 +33,3 @@ resources:
   requests:
     cpu: 250m
     memory: 256Mi
-
