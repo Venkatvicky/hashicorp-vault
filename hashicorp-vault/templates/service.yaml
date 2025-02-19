@@ -1,7 +1,13 @@
 apiVersion: v1
-kind: Secret
+kind: Service
 metadata:
-  name: postgres-secret
-type: Opaque
-data:
-  POSTGRES_PASSWORD: {{ "vaultpassword" | b64enc }}
+  name: vault
+  namespace: hashicorp
+spec:
+  selector:
+    app: vault
+  ports:
+    - name: http
+      port: {{ .Values.vault.service.port }}
+      targetPort: 8200
+  type: {{ .Values.vault.service.type }}
