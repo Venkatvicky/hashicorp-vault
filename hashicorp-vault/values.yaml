@@ -3,13 +3,12 @@ vault:
   replicas: 1
   service:
     enabled: true
-    type: ClusterIP
+    type: LoadBalancer  # Change to LoadBalancer
     port: 8200
-
   config:
     storage: "postgres"
     postgresql:
-      connection_url: "postgresql://vault:vaultpassword@postgres:5432"  # Fixed missing quote
+      connection_url: "postgresql://vault:vaultpassword@postgres:5432"
 
 postgres:
   image: "postgres:latest"
