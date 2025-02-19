@@ -3,8 +3,8 @@ vault:
   replicas: 1
   service:
     enabled: true
-    type: LoadBalancer  # Change to LoadBalancer
-    port: 8200
+    type: LoadBalancer  # Ensure correct type
+    port: 8200  # Define port properly
   config:
     storage: "postgres"
     postgresql:
@@ -15,20 +15,6 @@ postgres:
   replicas: 1
   service:
     type: ClusterIP
-    port: 5432
+    port: 5432  # Define port properly
   storage:
     size: 1Gi
-
-ingress:
-  enabled: false
-  annotations: {}
-  hosts: []
-  tls: []
-
-resources:
-  limits:
-    cpu: 500m
-    memory: 512Mi
-  requests:
-    cpu: 250m
-    memory: 256Mi
