@@ -1,0 +1,19 @@
+vault:
+  image: "hashicorp/vault:latest"
+  replicas: 1
+  service:
+    type: ClusterIP
+    port: 8200
+  config:
+    storage: "postgres"
+    postgresql:
+      connection_url: "postgresql://vault:vaultpassword@postgres:5432/vault"
+
+postgres:
+  image: "postgres:latest"
+  replicas: 1
+  service:
+    type: ClusterIP
+    port: 5432
+  storage:
+    size: 1Gi
