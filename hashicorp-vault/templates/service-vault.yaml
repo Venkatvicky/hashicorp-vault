@@ -6,7 +6,6 @@ spec:
   selector:
     app: vault
   ports:
-    - protocol: TCP
-      port: 8200
+    - port: {{ .Values.vault.service.port }}
       targetPort: 8200
   type: {{ .Values.vault.service.type }}
