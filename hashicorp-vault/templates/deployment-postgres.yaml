@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
-  labels:
-    app: postgres
 spec:
   replicas: {{ .Values.postgres.replicas }}
   selector:
@@ -17,6 +15,8 @@ spec:
       containers:
         - name: postgres
           image: {{ .Values.postgres.image }}
+          ports:
+            - containerPort: 5432
           env:
             - name: POSTGRES_USER
               value: "vault"
@@ -24,8 +24,6 @@ spec:
               value: "vaultpassword"
             - name: POSTGRES_DB
               value: "vault"
-          ports:
-            - containerPort: {{ .Values.postgres.service.port }}
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
