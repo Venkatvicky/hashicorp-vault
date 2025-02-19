@@ -2,18 +2,28 @@ vault:
   image: "hashicorp/vault:latest"
   replicas: 1
   service:
+    enabled: true
     type: ClusterIP
-    port: 8200
+    port: 8200  # <-- Ensure this exists
   config:
     storage: "postgres"
     postgresql:
-      connection_url: "postgresql://vault:vaultpassword@postgres:5432/vault"
-
+      connection_url: "postgresql://vault:vaultpassword@postgres:5432>
 postgres:
   image: "postgres:latest"
   replicas: 1
   service:
     type: ClusterIP
-    port: 5432
+    port: 5432  # <-- Ensure this exists
   storage:
     size: 1Gi
+
+spec:
+  source:
+    chart: vault
+    repoURL: https://helm.releases.hashicorp.com
+    targetRevision: 0.27.0
+    helm:
+      values: |
+        service:
+          port: 8200
